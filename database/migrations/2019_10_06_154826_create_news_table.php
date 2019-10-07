@@ -17,12 +17,12 @@ class CreateNewsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title', 100);
             $table->string('description')->nullable();
+            $table->string('image')->nullable();
             $table->string('author', 60)->nullable();
+            $table->string('author_avatar', 60)->nullable();
             $table->string('game_name', 60)->nullable();
-            $table->string('image_link')->nullable();
-            $table->integer('type_id')->nullable();
-            $table->integer('platform_id')->nullable();
-            $table->string('ref_id')->nullable();
+            $table->integer('tag_id')->nullable();
+            $table->integer('ref_id')->nullable();
             $table->string('ref_link')->nullable();
             $table->timestamps();
         });

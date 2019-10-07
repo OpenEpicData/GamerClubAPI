@@ -13,12 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('api')->get('/', function () {
-    return [
-        'Repo' => 'https://github.com/OpenEpicData/GamerClubAPI'
-    ];
-});
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => 'api'], function () {
+    Route::get('/', function () {
+        return ([
+            'gitHubSources' => 'https://github.com/OpenEpicData/GamerClubAPI'
+        ]);
+    });
+    Route::group(['prefix' => 'article'], function () {
+        Route::resource('fetch', 'Article\FetchController');
+    });
 });
