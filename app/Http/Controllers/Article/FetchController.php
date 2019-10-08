@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Article;
 
 use QL\QueryList;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use App\Http\Model\Article\{
     News,
     Ref,
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Log;
 
 class FetchController extends Controller
 {
+    protected $client;
+
+    public function __construct(Client $client)
+    {
+        $this->client = $client;
+    }
 
     /**
      * Display a listing of the resource.
