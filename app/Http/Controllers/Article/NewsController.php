@@ -15,7 +15,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return News::with(['tag', 'ref'])->get();
+        return News::with(['tag', 'ref'])
+            ->latest()
+            ->simplePaginate(15);
     }
 
     /**
