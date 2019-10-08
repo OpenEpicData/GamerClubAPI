@@ -21,5 +21,6 @@ Route::group(['middleware' => 'api'], function () {
     });
     Route::group(['prefix' => 'article'], function () {
         Route::resource('fetch', 'Article\FetchController');
+        Route::resource('news', 'Article\NewsController');
     });
 });
