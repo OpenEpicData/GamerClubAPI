@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Article;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Model\Article\News;
 
 class NewsController extends Controller
 {
@@ -14,7 +15,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        return News::with(['tag', 'ref'])->get();
     }
 
     /**
