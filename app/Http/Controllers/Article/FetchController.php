@@ -2,29 +2,18 @@
 
 namespace App\Http\Controllers\Article;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use QL\QueryList;
-use GuzzleHttp\Client;
-use App\Http\Model\Article\News;
-use App\Http\Model\Article\Ref;
-use App\Http\Model\Article\Tag;
+use App\Http\Controllers\Controller;
+use App\Http\Model\Article\{
+    News,
+    Ref,
+    Tag
+};
 use Illuminate\Support\Facades\Log;
 
 class FetchController extends Controller
 {
-    protected $client;
-    protected $news;
-    protected $tag;
-    protected $ref;
 
-    public function __construct(Client $client, News $news, Tag $tag, Ref $ref)
-    {
-        $this->client = $client;
-        $this->news = $news;
-        $this->tag = $tag;
-        $this->ref = $ref;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +22,7 @@ class FetchController extends Controller
     public function index()
     {
         //
-        return $this->news->with(['tag', 'ref'])->get();
+        return News::with(['tag', 'ref'])->get();
     }
 
     /**
@@ -77,12 +66,12 @@ class FetchController extends Controller
             $ref_name = '2p';
             $ref_top_domain = '//www.2p.com';
 
-            $tag_id = $this->tag->firstOrCreate(
+            $tag_id = Tag::firstOrCreate(
                 ['name' => $tag],
                 ['name' => $tag]
             )->id;
 
-            $ref_id = $this->ref->firstOrCreate(
+            $ref_id = Ref::firstOrCreate(
                 ['name' => $ref_name],
                 [
                     'name' => $ref_name,
@@ -90,7 +79,7 @@ class FetchController extends Controller
                 ]
             )->id;
 
-            $this->news->firstOrCreate(
+            News::firstOrCreate(
                 ['title' => $title],
                 [
                     'title' => $title,
@@ -120,12 +109,12 @@ class FetchController extends Controller
             $ref_name = '游研社';
             $ref_top_domain = '//www.yystv.cn';
 
-            $tag_id = $this->tag->firstOrCreate(
+            $tag_id = Tag::firstOrCreate(
                 ['name' => $tag],
                 ['name' => $tag]
             )->id;
 
-            $ref_id = $this->ref->firstOrCreate(
+            $ref_id = Ref::firstOrCreate(
                 ['name' => $ref_name],
                 [
                     'name' => $ref_name,
@@ -133,7 +122,7 @@ class FetchController extends Controller
                 ]
             )->id;
 
-            $this->news->firstOrCreate(
+            News::firstOrCreate(
                 ['title' => $title],
                 [
                     'title' => $title,
