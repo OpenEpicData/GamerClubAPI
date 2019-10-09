@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Article;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Model\Article\News;
+use Illuminate\Support\Facades\Cache;
 
 class NewsController extends Controller
 {
@@ -15,19 +16,22 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $q = $request->q;
-        $length = $request->length ?? 16;
-        
-        $query = News::with(['tag', 'ref']);
-        
-        if ($q) {
-            $query->where('title', 'like', "%" . $q . "%");
-            $query->orWhere('description', 'like', "%" . $q . "%");
-            $query->orWhere('author', 'like', "%" . $q . "%");
-            $query->orWhere('game_name', 'like', "%" . $q . "%");
-        }
+        $fullUrl = $request->fullUrl();
 
-        return $query->latest()->paginate($length);
+        return Cache::remember($fullUrl, 300, function () use($request){
+            $q = $request->q;
+            $length = $request->length ?? 16;
+            $query = News::with(['tag', 'ref']);
+
+            if ($q) {
+                $query->where('title', 'like', "%" . $q . "%");
+                $query->orWhere('description', 'like', "%" . $q . "%");
+                $query->orWhere('author', 'like', "%" . $q . "%");
+                $query->orWhere('game_name', 'like', "%" . $q . "%");
+            }
+    
+            return $query->latest()->paginate($length);
+        });
     }
 
     /**
