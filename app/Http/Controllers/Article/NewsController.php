@@ -15,10 +15,19 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
+        $q = $request->q;
         $length = $request->length ?? 16;
-        return News::with(['tag', 'ref'])
-            ->latest()
-            ->paginate($length);
+        
+        $query = News::with(['tag', 'ref']);
+        
+        if ((string) $q !== '') {
+            $query->where('title', 'like', "%" . $q . "%");
+            $query->orWhere('description', 'like', "%" . $q . "%");
+            $query->orWhere('author', 'like', "%" . $q . "%");
+            $query->orWhere('game_name', 'like', "%" . $q . "%");
+        }
+
+        return $query->latest()->paginate($length);
     }
 
     /**

@@ -11,8 +11,10 @@
         "fideloper/proxy": "^4.0",
         "jaeger/querylist": "^4.1",
         "laravel/framework": "^6.0",
+        "laravel/scout": "^7.2",
         "laravel/telescope": "^2.1",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "pmatseykanets/laravel-scout-postgres": "^6.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
