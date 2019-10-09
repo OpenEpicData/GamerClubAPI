@@ -20,7 +20,7 @@ class NewsController extends Controller
         
         $query = News::with(['tag', 'ref']);
         
-        if ((string) $q !== '') {
+        if ($q) {
             $query->where('title', 'like', "%" . $q . "%");
             $query->orWhere('description', 'like', "%" . $q . "%");
             $query->orWhere('author', 'like', "%" . $q . "%");
