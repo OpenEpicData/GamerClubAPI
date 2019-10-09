@@ -15,7 +15,7 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
-        $length = $request->length ?? 15;
+        $length = $request->length ?? 16;
         return News::with(['tag', 'ref'])
             ->latest()
             ->simplePaginate($length);
