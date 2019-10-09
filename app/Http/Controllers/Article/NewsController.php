@@ -18,7 +18,7 @@ class NewsController extends Controller
         $length = $request->length ?? 16;
         return News::with(['tag', 'ref'])
             ->latest()
-            ->simplePaginate($length);
+            ->paginate($length);
     }
 
     /**
