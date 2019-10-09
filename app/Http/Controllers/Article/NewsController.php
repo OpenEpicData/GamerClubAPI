@@ -13,11 +13,12 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $length = $request->length ?? 15;
         return News::with(['tag', 'ref'])
             ->latest()
-            ->simplePaginate(15);
+            ->simplePaginate($length);
     }
 
     /**
