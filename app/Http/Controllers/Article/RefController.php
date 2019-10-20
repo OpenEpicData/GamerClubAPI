@@ -15,7 +15,7 @@ class RefController extends Controller
      */
     public function index()
     {
-        return Ref::all();
+        return Ref::pluck('name');
     }
 
     /**

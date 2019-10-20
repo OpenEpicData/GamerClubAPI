@@ -15,7 +15,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        return Tag::all();
+        return Tag::pluck('name');
     }
 
     /**
