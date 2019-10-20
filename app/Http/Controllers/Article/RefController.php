@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Article;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Model\Article\Ref;
 
 class RefController extends Controller
 {
@@ -14,7 +15,7 @@ class RefController extends Controller
      */
     public function index()
     {
-        //
+        return Ref::all();
     }
 
     /**
