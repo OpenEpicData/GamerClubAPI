@@ -18,19 +18,37 @@ class NewsController extends Controller
     {
         $fullUrl = $request->fullUrl();
 
-        return Cache::remember($fullUrl, 0, function () use($request){
+        return Cache::remember($fullUrl, 0, function () use ($request) {
             $q = $request->q;
             $length = $request->length ?? 16;
-            $query = News::with(['tag', 'ref']);
+            $tagName = $request->tagName;
+            $refName = $request->refName;
+
+            $news = News::query();
+            
+            if ($tagName) {
+                $news->whereHasIn('tag', function ($query) use ($tagName) {
+                    $query->where('name', $tagName);
+                });
+            }
+
+            if ($refName) {
+                $news->whereHasIn('ref', function ($q) use ($refName) {
+                    $q->where('name', $refName);
+                });
+            }
 
             if ($q) {
-                $query->where('title', 'ILIKE', "%" . $q . "%");
-                $query->orWhere('description', 'ILIKE', "%" . $q . "%");
-                $query->orWhere('author', 'ILIKE', "%" . $q . "%");
-                $query->orWhere('game_name', 'ILIKE', "%" . $q . "%");
+                $news->where('title', 'ILIKE', "%" . $q . "%");
+                $news->orWhere('description', 'ILIKE', "%" . $q . "%");
+                $news->orWhere('author', 'ILIKE', "%" . $q . "%");
+                $news->orWhere('game_name', 'ILIKE', "%" . $q . "%");
             }
-    
-            return $query->latest()->paginate($length);
+
+            return $news
+                ->with(['tag', 'ref'])
+                ->latest()
+                ->paginate($length);
         });
     }
 
