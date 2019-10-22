@@ -28,15 +28,17 @@ class FetchController extends Controller
      */
     public function create()
     {
-        $indienova = $this->indienova();
         $towP = $this->towP();
         $yys = $this->yys();
+        $indienova = $this->indienova();
+        $vgtime = $this->vgtime();
 
 
         return [
             '2p' => $towP,
             '游研社' => $yys,
-            'indienova' => $indienova
+            'indienova' => $indienova,
+            'vgtime' => $vgtime
         ];
     }
 
@@ -156,6 +158,7 @@ class FetchController extends Controller
             $ref_name = 'indienova';
             $ref_top_domain = '//indienova.com';
             $image = str_replace("_t205", "", $item['image'] ?? null)  ?? null;
+
             $tag_id = Tag::firstOrCreate(
                 ['name' => $tag],
                 ['name' => $tag]
@@ -187,5 +190,57 @@ class FetchController extends Controller
         });
 
         return 'indienova fecth success';
+    }
+
+    protected function vgtime()
+    {
+        $data = QueryList::get('https://www.vgtime.com')
+            ->rules([
+                'title' => array('.game_news_box .vg_list .small_small li .info_box a h2', 'text'),
+                'description' => array('.game_news_box .vg_list .small_small li .info_box p', 'text'),
+                'image' => array('.game_news_box .vg_list .small_small li .img_box a img', 'data-url'),
+                'author' => array('.game_news_box .vg_list .small_small li .info_box .fot_box .left span', 'text'),
+                'ref_link' => array('.game_news_box .vg_list .small_small li .info_box a', 'href')
+            ])
+            ->queryData();
+
+        $collection = collect($data)->each(function ($item, $key) {
+            $title = $item['title'];
+            $tag = '资讯';
+            $ref_name = 'vgtime';
+            $ref_top_domain = '//www.vgtime.com';
+            $image = str_replace("?x-oss-process=image/resize,m_pad,color_000000,w_640,h_400", "", $item['image'] ?? null)  ?? null;
+
+            $tag_id = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['name' => $tag]
+            )->id;
+
+            $ref_id = Ref::firstOrCreate(
+                ['name' => $ref_name],
+                [
+                    'name' => $ref_name,
+                    'top_domain' => $ref_top_domain
+                ]
+            )->id;
+
+            News::firstOrCreate(
+                ['title' => $title],
+                [
+                    'title' => $title,
+                    'description' => $item['description'] ?? null,
+                    'image' => $image ?? null,
+                    'author' => $item['author'] ?? null,
+                    'author_avatar' => $item['author_avatar'] ?? null,
+                    'game_name' => $item['game_name'] ?? null,
+                    'tag_id' => $tag_id,
+                    'ref_id' => $ref_id,
+                    'ref_link' => $ref_top_domain . $item['ref_link']
+                ]
+            );
+            Log::info('拉取文章: ' . $ref_name . ' - ' . $title);
+        });
+
+        return 'vgtime fecth success';
     }
 }
