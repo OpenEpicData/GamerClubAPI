@@ -28,13 +28,15 @@ class FetchController extends Controller
      */
     public function create()
     {
+        $indienova = $this->indienova();
         $towP = $this->towP();
         $yys = $this->yys();
 
 
         return [
             '2p' => $towP,
-            '游研社' => $yys
+            '游研社' => $yys,
+            'indienova' => $indienova
         ];
     }
 
@@ -135,5 +137,55 @@ class FetchController extends Controller
 
 
         return 'yys fetch success';
+    }
+
+    protected function indienova()
+    {
+        $data = QueryList::get('https://indienova.com/channel/news')
+            ->rules([
+                'title' => array('.indienova-channel-border .article-panel h4 a', 'text'),
+                'description' => array('.indienova-channel-border .article-panel p', 'text'),
+                'image' => array('.indienova-channel-border .article-panel .article-image a img', 'src'),
+                'ref_link' => array('.indienova-channel-border .article-panel h4 a', 'href')
+            ])
+            ->queryData();
+
+        $collection = collect($data)->each(function ($item, $key) {
+            $title = $item['title'];
+            $tag = '资讯';
+            $ref_name = 'indienova';
+            $ref_top_domain = '//indienova.com';
+            $image = str_replace("_t205", "", $item['image'] ?? null)  ?? null;
+            $tag_id = Tag::firstOrCreate(
+                ['name' => $tag],
+                ['name' => $tag]
+            )->id;
+
+            $ref_id = Ref::firstOrCreate(
+                ['name' => $ref_name],
+                [
+                    'name' => $ref_name,
+                    'top_domain' => $ref_top_domain
+                ]
+            )->id;
+
+            News::firstOrCreate(
+                ['title' => $title],
+                [
+                    'title' => $title,
+                    'description' => $item['description'] ?? null,
+                    'image' => $image ?? null,
+                    'author' => $item['author'] ?? null,
+                    'author_avatar' => $item['author_avatar'] ?? null,
+                    'game_name' => $item['game_name'] ?? null,
+                    'tag_id' => $tag_id,
+                    'ref_id' => $ref_id,
+                    'ref_link' => $ref_top_domain . $item['ref_link']
+                ]
+            );
+            Log::info('拉取文章: ' . $ref_name . ' - ' . $title);
+        });
+
+        return 'indienova fecth success';
     }
 }
