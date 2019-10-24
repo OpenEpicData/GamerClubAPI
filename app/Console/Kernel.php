@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('telescope:prune')->daily();
         $schedule->command('fetch:news')->everyMinute()->runInBackground();
+        $schedule->command('analysis:news')->everyMinute()->runInBackground();
     }
 
     /**

@@ -19,10 +19,15 @@ Route::group(['middleware' => 'api'], function () {
             'gitHubSources' => 'https://github.com/OpenEpicData/GamerClubAPI'
         ]);
     });
+
     Route::group(['prefix' => 'article'], function () {
         Route::resource('fetch', 'Article\FetchController');
         Route::resource('news', 'Article\NewsController');
         Route::resource('refs', 'Article\RefController');
         Route::resource('tags', 'Article\TagController');
+    });
+
+    Route::group(['prefix' => 'analysis'], function () {
+        Route::resource('news', 'Analysis\NewsController');
     });
 });
