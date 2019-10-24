@@ -44,7 +44,7 @@ class FetchController extends Controller
 
     protected function towP()
     {
-        $data = QueryList::get('https://www.2p.com/articles', [
+        $data = QueryList::get('www.2p.com/articles', [
             'pageSize' => '21',
             'pageNo' => '1'
         ])
@@ -101,7 +101,7 @@ class FetchController extends Controller
 
     protected function yys()
     {
-        $res = $this->client->request('GET', 'https://www.yystv.cn/boards/get_board_list_by_page?page=0&value=news');
+        $res = $this->client->request('GET', 'www.yystv.cn/boards/get_board_list_by_page?page=0&value=news');
 
         $collection = collect(json_decode($res->getBody())->data)->each(function ($item, $key) {
             $title = $item->title;
@@ -143,7 +143,7 @@ class FetchController extends Controller
 
     protected function indienova()
     {
-        $data = QueryList::get('https://indienova.com/channel/news')
+        $data = QueryList::get('indienova.com/channel/news')
             ->rules([
                 'title' => array('.indienova-channel-border .article-panel h4 a', 'text'),
                 'description' => array('.indienova-channel-border .article-panel p', 'text'),
@@ -194,7 +194,7 @@ class FetchController extends Controller
 
     protected function vgtime()
     {
-        $data = QueryList::get('https://www.vgtime.com')
+        $data = QueryList::get('www.vgtime.com')
             ->rules([
                 'title' => array('.game_news_box .vg_list .small_small li .info_box a h2', 'text'),
                 'description' => array('.game_news_box .vg_list .small_small li .info_box p', 'text'),
