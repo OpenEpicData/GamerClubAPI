@@ -25,7 +25,7 @@ class NewsController extends Controller
             $refName = $request->refName;
 
             $news = News::query();
-            
+
             if ($tagName) {
                 $news->whereHasIn('tag', function ($query) use ($tagName) {
                     $query->where('name', $tagName);
@@ -33,16 +33,18 @@ class NewsController extends Controller
             }
 
             if ($refName) {
-                $news->whereHasIn('ref', function ($q) use ($refName) {
-                    $q->where('name', $refName);
+                $news->whereHasIn('ref', function ($query) use ($refName) {
+                    $query->where('name', $refName);
                 });
             }
 
             if ($q) {
-                $news->where('title', 'ILIKE', "%" . $q . "%");
-                $news->orWhere('description', 'ILIKE', "%" . $q . "%");
-                $news->orWhere('author', 'ILIKE', "%" . $q . "%");
-                $news->orWhere('game_name', 'ILIKE', "%" . $q . "%");
+                $news->where(function($query) use ($q) {
+                    $query->where('title', 'ILIKE', "%" . $q . "%")
+                    ->orWhere('description', 'ILIKE', "%" . $q . "%")
+                    ->orWhere('author', 'ILIKE', "%" . $q . "%")
+                    ->orWhere('game_name', 'ILIKE', "%" . $q . "%");
+                });
             }
 
             return $news
