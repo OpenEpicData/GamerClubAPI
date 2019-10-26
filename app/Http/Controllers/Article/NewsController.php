@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Article;
 
+use App\Http\Model\Analysis\News as AnalysisNews;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Model\Article\News;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 
 class NewsController extends Controller
 {
@@ -39,18 +41,37 @@ class NewsController extends Controller
             }
 
             if ($q) {
-                $news->where(function($query) use ($q) {
+                $news->where(function ($query) use ($q) {
                     $query->where('title', 'ILIKE', "%" . $q . "%")
-                    ->orWhere('description', 'ILIKE', "%" . $q . "%")
-                    ->orWhere('author', 'ILIKE', "%" . $q . "%")
-                    ->orWhere('game_name', 'ILIKE', "%" . $q . "%");
+                        ->orWhere('description', 'ILIKE', "%" . $q . "%")
+                        ->orWhere('author', 'ILIKE', "%" . $q . "%");
                 });
             }
 
-            return $news
+            $list = $news
                 ->with(['tag', 'ref'])
                 ->latest()
                 ->paginate($length);
+
+            $top_hit = AnalysisNews::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
+                ->orderBy('hit', 'desc')
+                ->first();
+
+            $top_news = $news
+                ->where(function ($query) use ($top_hit) {
+                    $q = $top_hit->title;
+
+                    $query->where('title', 'ILIKE', "%" . $q . "%")
+                        ->orWhere('description', 'ILIKE', "%" . $q . "%")
+                        ->orWhere('author', 'ILIKE', "%" . $q . "%");
+                })
+                ->with(['tag', 'ref'])
+                ->get();
+
+            return response()->json([
+                'top' => $top_news,
+                'latest' => $list
+            ]);
         });
     }
 

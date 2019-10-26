@@ -35,8 +35,7 @@ class NewsController extends Controller
                         $hit = News::where(function($query) use ($title) {
                             $query->where('title', 'ILIKE', "%" . $title . "%")
                             ->orWhere('description', 'ILIKE', "%" . $title . "%")
-                            ->orWhere('author', 'ILIKE', "%" . $title . "%")
-                            ->orWhere('game_name', 'ILIKE', "%" . $title . "%");
+                            ->orWhere('author', 'ILIKE', "%" . $title . "%");
                         })->count();
                         
                         if ($title) {
