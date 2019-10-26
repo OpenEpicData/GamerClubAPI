@@ -5,16 +5,19 @@ namespace App\Http\Controllers\Analysis;
 use App\Http\Controllers\Controller;
 use App\Http\Model\Analysis\News as AnalysisNews;
 use App\Http\Model\Article\News;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $length = $request->length ?? 16;
+
         return AnalysisNews::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
             ->orderBy('hit', 'desc')
             ->latest()
-            ->get();
+            ->paginate($length);
     }
 
     public function create()
