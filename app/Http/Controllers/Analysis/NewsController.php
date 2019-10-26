@@ -11,31 +11,39 @@ class NewsController extends Controller
 {
     public function index()
     {
-        return AnalysisNews::whereDate('created_at', Carbon::today())
+        return AnalysisNews::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
             ->orderBy('hit', 'desc')
+            ->latest()
             ->get();
     }
 
     public function create()
     {
-        News::whereDate('created_at', Carbon::today())
+        News::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
             ->latest()
-            ->chunk(200, function ($data) {
-                foreach ($data as $item) {
-                    $start = stristr($item->title, '《');
-                    $end = stristr($start, '》', true);
-                    $title = str_replace("《", "", $end);
-                    $find_repeat = AnalysisNews::where('title', $title)->get();
+            ->chunk(
+                200,
+                function ($data) {
+                    foreach ($data as $item) {
+                        $start = stristr($item->title, '《');
+                        $end = stristr($start, '》', true);
+                        $title = str_replace("《", "", $end);
 
-                    $hit = array_key_exists('hit', $find_repeat) ? $find_repeat->hit : 0;
-
-                    if ($title) {
-                        AnalysisNews::updateOrCreate(
-                            ['title' => $title],
-                            ['hit' => $hit + 1]
-                        );
+                        $hit = News::where(function($query) use ($title) {
+                            $query->where('title', 'ILIKE', "%" . $title . "%")
+                            ->orWhere('description', 'ILIKE', "%" . $title . "%")
+                            ->orWhere('author', 'ILIKE', "%" . $title . "%")
+                            ->orWhere('game_name', 'ILIKE', "%" . $title . "%");
+                        })->count();
+                        
+                        if ($title) {
+                            AnalysisNews::updateOrCreate(
+                                ['title' => $title],
+                                ['hit' => $hit]
+                            );
+                        }
                     }
                 }
-            });
+            );
     }
 }
