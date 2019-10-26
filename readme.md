@@ -23,3 +23,7 @@ Please ensure that you have already installed the PHP 7.2+ https://www.php.net/d
 ### DataBase text index
 
 https://pgroonga.github.io
+
+### Redis
+
+Install https://github.com/phpredis/phpredis
