@@ -54,7 +54,6 @@ class FetchController extends Controller
                 'image' => array('.game-list li .pic img', 'data-src'),
                 'author' => array('.game-list li .user', 'text'),
                 'author_avatar' => array('.game-list li .user img', 'src'),
-                'game_name' => array('.game-list li .game', 'text'),
                 'tag' => array('.game-list li .pic .tag', 'text'),
                 'ref_link' => array('.game-list li a', 'href')
             ])
@@ -87,7 +86,6 @@ class FetchController extends Controller
                     'image' => $item['image'] ?? null,
                     'author' => $item['author'] ?? null,
                     'author_avatar' => $item['author_avatar'] ?? null,
-                    'game_name' => $item['game_name'] ?? null,
                     'tag_id' => $tag_id,
                     'ref_id' => $ref_id,
                     'ref_link' => $item['ref_link']
@@ -180,7 +178,6 @@ class FetchController extends Controller
                     'image' => $image ?? null,
                     'author' => $item['author'] ?? null,
                     'author_avatar' => $item['author_avatar'] ?? null,
-                    'game_name' => $item['game_name'] ?? null,
                     'tag_id' => $tag_id,
                     'ref_id' => $ref_id,
                     'ref_link' => $ref_top_domain . $item['ref_link']
@@ -232,7 +229,6 @@ class FetchController extends Controller
                     'image' => $image ?? null,
                     'author' => $item['author'] ?? null,
                     'author_avatar' => $item['author_avatar'] ?? null,
-                    'game_name' => $item['game_name'] ?? null,
                     'tag_id' => $tag_id,
                     'ref_id' => $ref_id,
                     'ref_link' => $ref_top_domain . $item['ref_link']
