@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Model\Article\News;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Env;
 
 class NewsController extends Controller
 {
@@ -18,9 +19,11 @@ class NewsController extends Controller
      */
     public function index(Request $request)
     {
+        $cache_time = !Env('APP_DEBUG') ? 60 : 0;
+
         $fullUrl = $request->fullUrl();
 
-        return Cache::remember($fullUrl, 0, function () use ($request) {
+        return Cache::remember($fullUrl, $cache_time, function () use ($request) {
             $q = $request->q;
             $length = $request->length ?? 16;
             $tagName = $request->tagName;
