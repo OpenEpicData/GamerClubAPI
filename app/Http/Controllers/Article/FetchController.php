@@ -191,13 +191,14 @@ class FetchController extends Controller
 
     protected function vgtime()
     {
-        $data = QueryList::get('www.vgtime.com')
+        $res = $this->client->request('GET', 'http://www.vgtime.com/topic/index/load.jhtml?page=1&pageSize=12');
+        $data = QueryList::html(json_decode($res->getBody())->data)
             ->rules([
-                'title' => array('.game_news_box .vg_list .small_small li .info_box a h2', 'text'),
-                'description' => array('.game_news_box .vg_list .small_small li .info_box p', 'text'),
-                'image' => array('.game_news_box .vg_list .small_small li .img_box a img', 'data-url'),
-                'author' => array('.game_news_box .vg_list .small_small li .info_box .fot_box .left span', 'text'),
-                'ref_link' => array('.game_news_box .vg_list .small_small li .info_box a', 'href')
+                'title' => array('.news .info_box h2', 'text'),
+                'description' => array('.news .info_box p', 'text'),
+                'image' => array('.news .img_box img', 'src'),
+                'author' => array('.news .fot_box .user_name', 'text'),
+                'ref_link' => array('.news .info_box a', 'href')
             ])
             ->queryData();
 
@@ -206,7 +207,7 @@ class FetchController extends Controller
             $tag = '资讯';
             $ref_name = 'vgtime';
             $ref_top_domain = '//www.vgtime.com';
-            $image = str_replace("?x-oss-process=image/resize,m_pad,color_000000,w_640,h_400", "", $item['image'] ?? null)  ?? null;
+            $image = str_replace("?x-oss-process=image/resize,m_pad,color_000000,w_320,h_200", "", $item['image'] ?? null)  ?? null;
 
             $tag_id = Tag::firstOrCreate(
                 ['name' => $tag],
