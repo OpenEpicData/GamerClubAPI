@@ -68,6 +68,7 @@ class NewsController extends Controller
                         ->orWhere('author', 'ILIKE', "%" . $q . "%");
                 })
                     ->with(['tag', 'ref'])
+                    ->latest()
                     ->first();
 
                 array_push($top_news, $data);
