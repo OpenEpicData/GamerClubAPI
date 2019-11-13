@@ -70,7 +70,7 @@ class NewsController extends Controller
                     ->with(['tag', 'ref'])
                     ->first();
 
-                array_push($hit_query, $data);
+                array_push($top_news, $data);
             }
 
             return response()->json([
