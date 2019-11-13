@@ -30,7 +30,7 @@ class AddTagIndexTable extends Migration
     {
         Schema::table('tags', function(Blueprint $table){
             $sql = <<<SQL
-                ALTER TABLE tags DROP INDEX pgroonga_tags_name_index;
+                DROP INDEX pgroonga_tags_name_index;
             SQL;
             DB::connection()->getPdo()->exec($sql);
         });

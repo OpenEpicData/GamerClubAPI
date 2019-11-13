@@ -33,10 +33,10 @@ class AddNewsIndexTable extends Migration
     {
         Schema::table('news', function(Blueprint $table){
             $sql = <<<SQL
-                ALTER TABLE news DROP INDEX pgroonga_title_index;
-                ALTER TABLE news DROP INDEX pgroonga_description_index;
-                ALTER TABLE news DROP INDEX pgroonga_author_index;
-                ALTER TABLE news DROP INDEX pgroonga_game_name_index;
+                DROP INDEX pgroonga_title_index;
+                DROP INDEX pgroonga_description_index;
+                DROP INDEX pgroonga_author_index;
+                DROP INDEX pgroonga_game_name_index;
             SQL;
             DB::connection()->getPdo()->exec($sql);
         });

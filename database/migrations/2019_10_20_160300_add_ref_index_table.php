@@ -31,8 +31,8 @@ class AddRefIndexTable extends Migration
     {
         Schema::table('refs', function(Blueprint $table){
             $sql = <<<SQL
-                ALTER TABLE refs DROP INDEX pgroonga_refs_name_index;
-                ALTER TABLE refs DROP INDEX pgroonga_refs_top_domain_index;
+                DROP INDEX pgroonga_refs_name_index;
+                DROP INDEX pgroonga_refs_top_domain_index;
             SQL;
             DB::connection()->getPdo()->exec($sql);
         });
