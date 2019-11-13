@@ -55,18 +55,23 @@ class NewsController extends Controller
 
             $top_hit = AnalysisNews::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
                 ->orderBy('hit', 'desc')
-                ->first();
+                ->take(3)
+                ->get();
 
-            $top_news = $news
-                ->where(function ($query) use ($top_hit) {
-                    $q = $top_hit->title;
+            $top_news = [];
+            foreach ($top_hit as $key) {
+                $data = News::where(function ($query) use ($key) {
+                    $q = $key->title;
 
                     $query->where('title', 'ILIKE', "%" . $q . "%")
                         ->orWhere('description', 'ILIKE', "%" . $q . "%")
                         ->orWhere('author', 'ILIKE', "%" . $q . "%");
                 })
-                ->with(['tag', 'ref'])
-                ->get();
+                    ->with(['tag', 'ref'])
+                    ->first();
+
+                array_push($hit_query, $data);
+            }
 
             return response()->json([
                 'top' => $top_news,
