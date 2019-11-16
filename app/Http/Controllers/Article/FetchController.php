@@ -28,7 +28,6 @@ class FetchController extends Controller
      */
     public function create()
     {
-        return $this->vgtime();
         $towP = $this->towP();
         $yys = $this->yys();
         $indienova = $this->indienova();
