@@ -12,7 +12,6 @@ class UserCountController extends Controller
     {
         $data = UserCount::whereDate('created_at', '>=', Carbon::now()
             ->startOfMonth())
-            ->latest()
             ->get();
 
         $user = $data->pluck('user');
