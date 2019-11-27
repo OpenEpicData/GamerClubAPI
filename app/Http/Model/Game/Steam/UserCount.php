@@ -12,10 +12,4 @@ class UserCount extends Model
     protected $guarded = [];
 
     protected $hidden = ['id'];
-
-    public function getCreatedAtAttribute($value)
-    {
-        $date = Carbon::parse($value);
-        return $date->isoFormat('M/D HH:mm');
-    }
 }
