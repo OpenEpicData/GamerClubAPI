@@ -10,9 +10,17 @@ class UserCountController extends Controller
 {
     public function index()
     {
-        return UserCount::whereDate('created_at', '>=', Carbon::now()
+        $data = UserCount::whereDate('created_at', '>=', Carbon::now()
             ->startOfMonth())
             ->latest()
             ->get();
+
+        $user = $data->pluck('user');
+        $created_at = $data->pluck('created_at');
+
+        return [
+            'user' => $user,
+            'created_at' => $created_at
+        ];
     }
 }
