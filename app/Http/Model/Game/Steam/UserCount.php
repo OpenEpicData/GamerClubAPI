@@ -9,4 +9,6 @@ class UserCount extends Model
     protected $table = 'steam_user_count';
 
     protected $guarded = [];
+
+    protected $hidden = ['id'];
 }

@@ -34,6 +34,7 @@ Route::group(['middleware' => 'api'], function () {
     Route::group(['prefix' => 'game'], function () {
         Route::group(['prefix' => 'steam'], function () {
             Route::resource('fetch_user_count', 'Game\Steam\FetchUserCountController');
+            Route::resource('user_count', 'Game\Steam\UserCountController');
         });
     });
 });
