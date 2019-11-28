@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('telescope:prune')->daily();
         $schedule->command('fetch:news')->everyFiveMinutes()->runInBackground();
-        $schedule->command('analysis:news')->everyFiveMinutes()()->runInBackground();
+        $schedule->command('analysis:news')->everyFiveMinutes()->runInBackground();
         $schedule->command('fetch:SteamUserCount')->everyTenMinutes()->runInBackground();
         $schedule->command('fetch:SteamWeeklyTopSellers')->everyTenMinutes()->runInBackground();
     }
