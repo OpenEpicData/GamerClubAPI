@@ -18,18 +18,24 @@ class UserCountController extends Controller
         $user = $data->pluck('user');
         $created_at = $data->pluck('created_at');
 
-        $avg = $data->avg('user');
-        $max = $data->max('user');
-        $min = $data->min('user');
-        $now = $user->last();
+        $today = UserCount::whereDate('created_at', '>=', Carbon::now()
+        ->startOfDay())
+        ->get();
+
+        $avg = $today->avg('user');
+        $max = $today->max('user');
+        $min = $today->min('user');
+        $now = $today->last();
 
         return [
             'user' => $user,
             'created_at' => $created_at,
-            'avg' => $avg,
-            'max' => $max,
-            'min' => $min,
-            'now' => $now
+            'today' => [
+                'avg' => $avg,
+                'max' => $max,
+                'min' => $min,
+                'now' => $now
+            ]
         ];
     }
 }
