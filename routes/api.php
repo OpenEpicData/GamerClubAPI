@@ -36,6 +36,7 @@ Route::group(['middleware' => 'api'], function () {
             Route::resource('fetch_user_count', 'Game\Steam\FetchUserCountController');
             Route::resource('fetch_weekly_top_sellers', 'Game\Steam\FetchWeeklyTopSellersController');
             Route::resource('user_count', 'Game\Steam\UserCountController');
+            Route::resource('weekly_top_sellers', 'Game\Steam\WeeklyTopSellersController');
         });
     });
 });
