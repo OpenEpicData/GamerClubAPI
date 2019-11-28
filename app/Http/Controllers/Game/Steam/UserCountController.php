@@ -25,7 +25,7 @@ class UserCountController extends Controller
         $avg = $today->avg('user');
         $max = $today->max('user');
         $min = $today->min('user');
-        $now = $today->last();
+        $now = $today->pluck('user')->last();
 
         return [
             'user' => $user,
