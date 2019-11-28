@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('fetch:news')->everyMinute()->runInBackground();
         $schedule->command('analysis:news')->everyMinute()->runInBackground();
         $schedule->command('fetch:SteamUserCount')->everyTenMinutes()->runInBackground();
+        $schedule->command('fetch:SteamWeeklyTopSellers')->everyTenMinutes()->runInBackground();
     }
 
     /**

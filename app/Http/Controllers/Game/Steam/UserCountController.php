@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Game\Steam;
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\UserCount;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Arr;
 
 class UserCountController extends Controller
 {
