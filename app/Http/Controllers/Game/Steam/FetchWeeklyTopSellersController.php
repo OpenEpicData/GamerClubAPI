@@ -32,7 +32,7 @@ class FetchWeeklyTopSellersController extends Controller
 
         $db_latest = WeeklyTopSellers::latest()->first();
 
-        if ($db_latest->timestamp === $parse_date) {
+        if (!empty($db_latest) && $db_latest->timestamp === $parse_date) {
             return;
         }
 
