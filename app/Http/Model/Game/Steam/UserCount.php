@@ -12,10 +12,4 @@ class UserCount extends Model
     protected $guarded = [];
 
     protected $hidden = ['id'];
-
-    public function getCreatedAtAttribute($value)
-    {
-        $data =  Carbon::createFromDate($value);
-        return $data->timestamp;
-    }
 }
