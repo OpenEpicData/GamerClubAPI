@@ -15,6 +15,7 @@ class UserCount extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return Carbon::createFromDate($value)->timestamp;
+        $data =  Carbon::createFromDate($value);
+        return $data->timestamp . $data->milli;
     }
 }
