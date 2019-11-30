@@ -10,19 +10,15 @@ class UserCountController extends Controller
 {
     public function index()
     {
-        $data = UserCount::whereMonth(
-            'created_at',
-            Carbon::now()->month
-        )
+        $data = UserCount::whereDate('created_at', '>=', Carbon::now()
+            ->startOfMonth())
             ->get();
 
         $user = $data->pluck('user');
         $created_at = $data->pluck('created_at');
 
-        $today = UserCount::whereDay (
-            'created_at',
-            Carbon::today()
-        )
+        $today = UserCount::whereDate('created_at', '>=', Carbon::now()
+            ->startOfDay())
             ->get();
 
         $avg = $today->avg('user');
