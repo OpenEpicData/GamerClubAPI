@@ -1,6 +1,5 @@
 <?php
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +36,10 @@ Route::group(['middleware' => 'api'], function () {
             Route::resource('fetch_weekly_top_sellers', 'Game\Steam\FetchWeeklyTopSellersController');
             Route::resource('user_count', 'Game\Steam\UserCountController');
             Route::resource('weekly_top_sellers', 'Game\Steam\WeeklyTopSellersController');
+
+            Route::group(['prefix' => 'spider'], function () {
+                Route::get('app', 'Game\Steam\Spider\AppController@index');
+            });
         });
     });
 });
