@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('analysis:news')->everyFiveMinutes()->runInBackground();
         $schedule->command('fetch:SteamUserCount')->everyTenMinutes()->runInBackground();
         $schedule->command('fetch:SteamWeeklyTopSellers')->everyTenMinutes()->runInBackground();
+        $schedule->command('fetch:spider:SteamApps')->hourly()->runInBackground();
     }
 
     /**
