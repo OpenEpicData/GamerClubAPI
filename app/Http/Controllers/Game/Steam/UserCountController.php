@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Game\Steam;
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\UserCount;
 use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
 
 class UserCountController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $toDaySubHours = $request->today_sub_hours ?? 0;
         $data = UserCount::whereDate('created_at', '>=', Carbon::now()
             ->startOfMonth())
             ->get();
@@ -18,7 +20,7 @@ class UserCountController extends Controller
         $created_at = $data->pluck('created_at');
 
         $today = UserCount::whereDate('created_at', '>=', Carbon::now()
-            ->startOfDay())
+            ->startOfDay()->sub($toDaySubHours, 'hours'))
             ->get();
 
         $avg = $today->avg('user');
