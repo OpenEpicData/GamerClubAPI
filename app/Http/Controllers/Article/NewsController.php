@@ -6,6 +6,7 @@ use App\Http\Model\Analysis\News as AnalysisNews;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Model\Article\News;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Env;
@@ -15,7 +16,8 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -31,19 +33,19 @@ class NewsController extends Controller
 
             $news = News::query();
 
-            if ($tagName) {
+            if ($tagName && $tagName !== 'undefined') {
                 $news->whereHasIn('tag', function ($query) use ($tagName) {
                     $query->where('name', $tagName);
                 });
             }
 
-            if ($refName) {
+            if ($refName && $refName !== 'undefined') {
                 $news->whereHasIn('ref', function ($query) use ($refName) {
                     $query->where('name', $refName);
                 });
             }
 
-            if ($q) {
+            if ($q && $q !== 'undefined') {
                 $news->where(function ($query) use ($q) {
                     $query->where('title', 'ILIKE', "%" . $q . "%")
                         ->orWhere('description', 'ILIKE', "%" . $q . "%")
@@ -87,7 +89,7 @@ class NewsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -97,8 +99,8 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -109,7 +111,7 @@ class NewsController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show($id)
     {
@@ -120,7 +122,7 @@ class NewsController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -130,9 +132,9 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -143,7 +145,7 @@ class NewsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
