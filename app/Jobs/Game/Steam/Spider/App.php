@@ -36,7 +36,7 @@ class App implements ShouldQueue
      */
     public function handle()
     {
-        Redis::throttle('SpiderSteamApp')->allow(1)->every(1)->then(function () {
+        Redis::throttle('SpiderSteamApp')->allow(30)->every(60)->then(function () {
             Log::info('进入队列:' . $this->page);
             $data = $this->spider();
 
