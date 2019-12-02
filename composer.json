@@ -7,7 +7,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.0",
         "jaeger/querylist": "^4.1",
