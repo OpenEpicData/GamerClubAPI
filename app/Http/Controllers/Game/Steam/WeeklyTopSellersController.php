@@ -9,11 +9,8 @@ use Illuminate\Support\Carbon;
 class WeeklyTopSellersController extends Controller
 {
     public function index() {
-        $data = WeeklyTopSellers::whereDate('created_at', '>=', Carbon::now()
-            ->startOfWeek())
+        return WeeklyTopSellers::whereDate('created_at', Carbon::today())
             ->oldest('rank')
             ->get();
-
-        return $data;
     }
 }
