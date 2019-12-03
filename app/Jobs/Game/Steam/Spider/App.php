@@ -41,14 +41,18 @@ class App implements ShouldQueue
             $data = $this->spider();
 
             collect($data)->each(function ($t) {
-                AppModel::updateOrCreate(
-                    [
-                        'appid' =>  $t['appid'],
-                        'name'  =>  $t['name']
-                    ], ['appid' =>  $t['appid']]
-                );
+                try {
+                    AppModel::updateOrCreate(
+                        [
+                            'appid' =>  $t['appid'],
+                            'name'  =>  $t['name']
+                        ], ['appid' =>  $t['appid']]
+                    );
 
-                Log::info('已插入' . $t['name']);
+                    Log::info('已插入' . $t['name']);
+                } catch (\Throwable $th) {
+                    Log::info($th);
+                }
             });
         }, function () {
             return $this->release(10);
