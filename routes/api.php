@@ -19,6 +19,8 @@ Route::group(['middleware' => 'api'], function () {
         ]);
     });
 
+    Route::get('queue/app', 'Queue\AppController@index');
+
     Route::group(['prefix' => 'article'], function () {
         Route::resource('fetch', 'Article\FetchController');
         Route::resource('news', 'Article\NewsController');
