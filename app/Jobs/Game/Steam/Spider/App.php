@@ -50,8 +50,8 @@ class App implements ShouldQueue
                     );
 
                     Log::info('已插入' . $t['name']);
-                } catch (\Throwable $th) {
-                    Log::info($th);
+                } catch (\Exception $e) {
+                    Log::info($e);
                 }
             });
         }, function () {
