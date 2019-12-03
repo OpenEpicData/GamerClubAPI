@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('analysis:news')->everyFiveMinutes()->runInBackground();
         $schedule->command('fetch:SteamUserCount')->everyTenMinutes()->runInBackground();
         $schedule->command('fetch:SteamWeeklyTopSellers')->everyTenMinutes()->runInBackground();
-        $schedule->command('fetch:spider:SteamApps')->hourly()->runInBackground();
+        $schedule->command('spider:SteamApps')->hourly()->runInBackground();
     }
 
     /**
