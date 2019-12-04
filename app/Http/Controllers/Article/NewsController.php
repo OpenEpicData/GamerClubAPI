@@ -31,6 +31,8 @@ class NewsController extends Controller
             $tagName = $request->tagName;
             $refName = $request->refName;
 
+            $top_length = $request->top_length ?? 3;
+
             $news = News::query();
 
             if ($tagName && $tagName !== 'undefined') {
@@ -60,7 +62,7 @@ class NewsController extends Controller
 
             $top_hit = AnalysisNews::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
                 ->orderBy('hit', 'desc')
-                ->take(3)
+                ->take($top_length)
                 ->get();
 
             $top_news = [];
