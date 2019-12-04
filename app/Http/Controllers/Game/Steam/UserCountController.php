@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Game\Steam;
 
+use Illuminate\{
+    Http\Request,
+    Support\Carbon
+};
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\UserCount;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
 
 class UserCountController extends Controller
 {

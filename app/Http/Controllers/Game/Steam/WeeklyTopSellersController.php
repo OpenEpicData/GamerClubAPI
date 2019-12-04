@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Game\Steam;
 
-use App\Http\Controllers\Controller;
-use App\Http\Model\Game\Steam\WeeklyTopSellers;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
+use App\Http\Model\Game\Steam\WeeklyTopSellers;
 
 class WeeklyTopSellersController extends Controller
 {

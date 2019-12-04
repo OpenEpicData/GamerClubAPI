@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Article;
 
 use QL\QueryList;
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
+use App\Http\Controllers\Controller;
 use App\Http\Model\Article\{
     News,
     Ref,
@@ -59,7 +59,7 @@ class FetchController extends Controller
             ])
             ->queryData();
 
-        $collection = collect($data)->each(function ($item, $key) {
+        collect($data)->each(function ($item) {
             $title = $item['title'];
             $tag = $item['tag'];
             $ref_name = '2p';
@@ -94,7 +94,7 @@ class FetchController extends Controller
             Log::info('拉取文章: ' . $ref_name . ' - ' . $title);
         });
 
-        return '2p fecth success';
+        return '2p fetch success';
     }
 
     protected function yys()

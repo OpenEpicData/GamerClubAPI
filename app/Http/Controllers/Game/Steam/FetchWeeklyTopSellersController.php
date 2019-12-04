@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Game\Steam;
 
-use App\Http\Controllers\Controller;
-use App\Http\Model\Game\Steam\WeeklyTopSellers;
-use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
+use App\Http\Model\Game\Steam\WeeklyTopSellers;
 
 class FetchWeeklyTopSellersController extends Controller
 {

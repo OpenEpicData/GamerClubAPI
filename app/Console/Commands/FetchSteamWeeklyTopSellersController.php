@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Request;
 
 class FetchSteamWeeklyTopSellersController extends Command
@@ -12,14 +13,14 @@ class FetchSteamWeeklyTopSellersController extends Command
      *
      * @var string
      */
-    protected $signature = 'fetch:SteamWeeklyTopSellers';
+    protected string $signature = 'fetch:SteamWeeklyTopSellers';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'FetchSteamWeeklyTopSellers';
+    protected string $description = 'FetchSteamWeeklyTopSellers';
 
     /**
      * Create a new command instance.
@@ -35,6 +36,7 @@ class FetchSteamWeeklyTopSellersController extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws BindingResolutionException
      */
     public function handle()
     {

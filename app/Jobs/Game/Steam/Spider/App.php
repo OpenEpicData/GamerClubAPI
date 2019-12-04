@@ -17,7 +17,7 @@ class App implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $page;
+    protected string $page;
 
     /**
      * Create a new job instance.

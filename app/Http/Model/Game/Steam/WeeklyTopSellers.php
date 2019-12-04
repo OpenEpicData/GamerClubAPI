@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class WeeklyTopSellers extends Model
 {
-    protected $table = 'steam_weekly_top_sellers';
+    protected string $table = 'steam_weekly_top_sellers';
 
-    protected $guarded = [];
+    protected array $guarded = [];
 
-    protected $hidden = ['id'];
+    protected array $hidden = ['id'];
 }

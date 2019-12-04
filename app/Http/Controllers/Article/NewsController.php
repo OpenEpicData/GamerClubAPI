@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers\Article;
 
-use App\Http\Model\Analysis\News as AnalysisNews;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Model\Article\News;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Env;
+use App\Http\Model\{
+    Article\News,
+    Analysis\News as AnalysisNews
+};
+use Illuminate\Http\{
+    Request,
+    Response
+};
+use Illuminate\Support\{
+    Facades\Cache,
+    Carbon
+};
 
 class NewsController extends Controller
 {
@@ -36,23 +41,20 @@ class NewsController extends Controller
             $news = News::query();
 
             if ($tagName && $tagName !== 'undefined') {
-                $news->whereHasIn('tag', function ($query) use ($tagName) {
-                    $query->where('name', $tagName);
-                });
+                $news->whereHasIn('tag', fn($query) => $query->where('name', $tagName));
             }
 
             if ($refName && $refName !== 'undefined') {
-                $news->whereHasIn('ref', function ($query) use ($refName) {
-                    $query->where('name', $refName);
-                });
+                $news->whereHasIn('ref', fn($query) => $query->where('name', $refName));
             }
 
             if ($q && $q !== 'undefined') {
-                $news->where(function ($query) use ($q) {
-                    $query->where('title', 'ILIKE', "%" . $q . "%")
-                        ->orWhere('description', 'ILIKE', "%" . $q . "%")
-                        ->orWhere('author', 'ILIKE', "%" . $q . "%");
-                });
+                $news->where(
+                    fn($query) =>
+                        $query->where('title', 'ILIKE', "%" . $q . "%")
+                            ->orWhere('description', 'ILIKE', "%" . $q . "%")
+                            ->orWhere('author', 'ILIKE', "%" . $q . "%")
+                );
             }
 
             $list = $news
@@ -67,13 +69,12 @@ class NewsController extends Controller
 
             $top_news = [];
             foreach ($top_hit as $key) {
-                $data = News::where(function ($query) use ($key) {
-                    $q = $key->title;
-
-                    $query->where('title', 'ILIKE', "%" . $q . "%")
-                        ->orWhere('description', 'ILIKE', "%" . $q . "%")
-                        ->orWhere('author', 'ILIKE', "%" . $q . "%");
-                })
+                $data = News::where(
+                    fn($query) =>
+                        $query->where('title', 'ILIKE', "%" . $key->title . "%")
+                            ->orWhere('description', 'ILIKE', "%" . $key->title . "%")
+                            ->orWhere('author', 'ILIKE', "%" . $key->title . "%")
+                )
                     ->with(['tag', 'ref'])
                     ->latest()
                     ->first();
@@ -86,71 +87,5 @@ class NewsController extends Controller
                 'latest' => $list
             ]);
         });
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

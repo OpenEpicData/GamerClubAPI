@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Analysis;
 
 use App\Http\Controllers\Controller;
-use App\Http\Model\Analysis\News as AnalysisNews;
-use App\Http\Model\Article\News;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use App\Http\Model\{
+    Article\News,
+    Analysis\News as AnalysisNews
+};
+use Illuminate\{
+    Http\Request,
+    Support\Carbon
+};
 
 class NewsController extends Controller
 {
@@ -32,12 +36,12 @@ class NewsController extends Controller
                         $end = stristr($start, '》', true);
                         $title = str_replace("《", "", $end);
 
-                        $hit = News::where(function($query) use ($title) {
+                        $hit = News::where(fn($query) =>
                             $query->where('title', 'ILIKE', "%" . $title . "%")
                             ->orWhere('description', 'ILIKE', "%" . $title . "%")
-                            ->orWhere('author', 'ILIKE', "%" . $title . "%");
-                        })->count();
-                        
+                            ->orWhere('author', 'ILIKE', "%" . $title . "%")
+                        )->count();
+
                         if ($title) {
                             AnalysisNews::updateOrCreate(
                                 ['title' => $title],

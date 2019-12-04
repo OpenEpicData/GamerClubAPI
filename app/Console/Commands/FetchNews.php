@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Request;
 
 class FetchNews extends Command
@@ -12,14 +13,14 @@ class FetchNews extends Command
      *
      * @var string
      */
-    protected $signature = 'fetch:news';
+    protected string $signature = 'fetch:news';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch News';
+    protected string $description = 'Fetch News';
 
     /**
      * Create a new command instance.
@@ -35,6 +36,7 @@ class FetchNews extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws BindingResolutionException
      */
     public function handle()
     {

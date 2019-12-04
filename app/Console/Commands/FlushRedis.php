@@ -12,14 +12,14 @@ class FlushRedis extends Command
      *
      * @var string
      */
-    protected $signature = 'flush:redis';
+    protected string $signature = 'flush:redis';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected string $description = 'Command description';
 
     /**
      * Create a new command instance.

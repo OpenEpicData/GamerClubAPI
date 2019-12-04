@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Request;
 
 class FetchSteamUserCount extends Command
@@ -12,14 +13,14 @@ class FetchSteamUserCount extends Command
      *
      * @var string
      */
-    protected $signature = 'fetch:SteamUserCount';
+    protected string $signature = 'fetch:SteamUserCount';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'FetchSteamUserCount';
+    protected string $description = 'FetchSteamUserCount';
 
     /**
      * Create a new command instance.
@@ -35,6 +36,7 @@ class FetchSteamUserCount extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws BindingResolutionException
      */
     public function handle()
     {

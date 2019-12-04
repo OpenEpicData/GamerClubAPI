@@ -3,13 +3,12 @@
 namespace App\Http\Model\Game\Steam;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class UserCount extends Model
 {
-    protected $table = 'steam_user_count';
+    protected string $table = 'steam_user_count';
 
-    protected $guarded = [];
+    protected array $guarded = [];
 
-    protected $hidden = ['id'];
+    protected array $hidden = ['id'];
 }

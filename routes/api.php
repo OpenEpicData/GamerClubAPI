@@ -13,35 +13,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'api'], function () {
-    Route::get('/', function () {
-        return ([
-            'gitHubSources' => 'https://github.com/OpenEpicData/GamerClubAPI'
-        ]);
-    });
+    Route::get('/', fn() => ([
+        'gitHubSources' => 'https://github.com/OpenEpicData/GamerClubAPI'
+    ]));
 
     Route::get('queue/app', 'Queue\AppController@index');
 
-    Route::group(['prefix' => 'article'], function () {
-        Route::resource('fetch', 'Article\FetchController');
-        Route::resource('news', 'Article\NewsController');
-        Route::resource('refs', 'Article\RefController');
-        Route::resource('tags', 'Article\TagController');
+    Route::group(['prefix' => 'article', 'namespace' => 'Article'], function () {
+        Route::resource('fetch', 'FetchController');
+        Route::resource('news', 'NewsController');
+        Route::resource('refs', 'RefController');
+        Route::resource('tags', 'TagController');
     });
 
-    Route::group(['prefix' => 'analysis'], function () {
-        Route::resource('news', 'Analysis\NewsController');
+    Route::group(['prefix' => 'analysis', 'namespace' => 'Analysis'], function () {
+        Route::resource('news', 'NewsController');
     });
 
-    Route::group(['prefix' => 'game'], function () {
-        Route::group(['prefix' => 'steam'], function () {
-            Route::resource('fetch_user_count', 'Game\Steam\FetchUserCountController');
-            Route::resource('fetch_weekly_top_sellers', 'Game\Steam\FetchWeeklyTopSellersController');
-            Route::resource('user_count', 'Game\Steam\UserCountController');
-            Route::resource('weekly_top_sellers', 'Game\Steam\WeeklyTopSellersController');
-            Route::resource('apps', 'Game\Steam\AppController');
+    Route::group(['prefix' => 'game', 'namespace' => 'Game'], function () {
+        Route::group(['prefix' => 'steam', 'namespace' => 'Steam'], function () {
+            Route::resource('fetch_user_count', 'FetchUserCountController');
+            Route::resource('fetch_weekly_top_sellers', 'FetchWeeklyTopSellersController');
+            Route::resource('user_count', 'UserCountController');
+            Route::resource('weekly_top_sellers', 'WeeklyTopSellersController');
+            Route::resource('apps', 'AppController');
 
-            Route::group(['prefix' => 'spider'], function () {
-                Route::get('app', 'Game\Steam\Spider\AppController@index');
+            Route::group(['prefix' => 'spider', 'namespace' => 'Spider'], function () {
+                Route::get('app', 'AppController@index');
             });
         });
     });

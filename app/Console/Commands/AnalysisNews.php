@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Request;
 
 class AnalysisNews extends Command
@@ -12,14 +13,14 @@ class AnalysisNews extends Command
      *
      * @var string
      */
-    protected $signature = 'analysis:news';
+    protected string $signature = 'analysis:news';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Analysis News';
+    protected string $description = 'Analysis News';
 
     /**
      * Create a new command instance.
@@ -35,6 +36,7 @@ class AnalysisNews extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws BindingResolutionException
      */
     public function handle()
     {

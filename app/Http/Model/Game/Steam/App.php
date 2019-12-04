@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class App extends Model
 {
-    protected $table = 'steam_apps';
+    protected string $table = 'steam_apps';
 
-    protected $guarded = [];
+    protected array $guarded = [];
 
-    protected $hidden = ['id'];
+    protected array $hidden = ['id'];
 }

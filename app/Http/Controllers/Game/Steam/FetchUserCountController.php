@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Game\Steam;
 
-use App\Http\Controllers\Controller;
-use App\Http\Model\Game\Steam\UserCount;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
+use App\Http\Controllers\Controller;
+use App\Http\Model\Game\Steam\UserCount;
 
 class FetchUserCountController extends Controller
 {
