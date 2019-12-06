@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('queue/app', 'Queue\AppController@index');
 
     Route::group(['prefix' => 'article', 'namespace' => 'Article'], function () {
-        Route::resource('fetch', 'FetchController');
         Route::resource('news', 'NewsController');
         Route::resource('refs', 'RefController');
         Route::resource('tags', 'TagController');
@@ -32,15 +32,21 @@ Route::group(['middleware' => 'api'], function () {
 
     Route::group(['prefix' => 'game', 'namespace' => 'Game'], function () {
         Route::group(['prefix' => 'steam', 'namespace' => 'Steam'], function () {
-            Route::resource('fetch_user_count', 'FetchUserCountController');
-            Route::resource('fetch_weekly_top_sellers', 'FetchWeeklyTopSellersController');
-            Route::resource('user_count', 'UserCountController');
-            Route::resource('weekly_top_sellers', 'WeeklyTopSellersController');
+            Route::resource('status', 'UserCountController');
+            Route::resource('weeklyTopSellers', 'WeeklyTopSellersController');
             Route::resource('apps', 'AppController');
+        });
+    });
 
-            Route::group(['prefix' => 'spider', 'namespace' => 'Spider'], function () {
-                Route::get('app', 'AppController@index');
-            });
+    Route::group(['prefix' => 'spider', 'namespace' => 'Spider'], function () {
+        Route::group(['prefix' => 'article', 'namespace' => 'Article'], function () {
+            Route::get('news', 'NewsController@index');
+        });
+
+        Route::group(['prefix' => 'steam', 'namespace' => 'Steam'], function () {
+            Route::get('apps', 'AppController@index');
+            Route::get('status', 'StatusController@index');
+            Route::get('weeklyTopSellers', 'WeeklyTopSellersController@index');
         });
     });
 });

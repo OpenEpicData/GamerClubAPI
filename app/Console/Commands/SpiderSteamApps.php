@@ -21,7 +21,7 @@ class SpiderSteamApps extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '爬取 Steam 游戏库';
 
     /**
      * Create a new command instance.
@@ -41,7 +41,7 @@ class SpiderSteamApps extends Command
      */
     public function handle()
     {
-        $request = Request::create('/api/game/steam/spider/app', 'GET');
+        $request = Request::create('/api/spider/steam/apps', 'GET');
         $this->info(app()->make(Kernel::class)->handle($request));
     }
 }

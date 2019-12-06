@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Game\Steam;
+namespace App\Http\Controllers\Spider\Steam;
 
-use GuzzleHttp\Client;
-use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\WeeklyTopSellers;
+use GuzzleHttp\Client;
+use Illuminate\Support\Carbon;
 
-class FetchWeeklyTopSellersController extends Controller
+class WeeklyTopSellersController extends Controller
 {
     protected $client;
 
@@ -16,7 +16,7 @@ class FetchWeeklyTopSellersController extends Controller
         $this->client = $client;
     }
 
-    public function create()
+    public function index()
     {
         $res = $this->client->request('GET', 'https://store.steampowered.com/feeds/weeklytopsellers.xml?l=schinese&cc=cn');
         $xml = simplexml_load_string($res->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);

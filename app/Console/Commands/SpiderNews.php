@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Request;
 
-class FetchNews extends Command
+class SpiderNews extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'fetch:news';
+    protected $signature = 'spider:news';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fetch News';
+    protected $description = '爬取新闻';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class FetchNews extends Command
      */
     public function handle()
     {
-        $request = Request::create('/api/article/fetch/create', 'GET');
+        $request = Request::create('/api/spider/article/news', 'GET');
         $this->info(app()->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request));
     }
 }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Game\Steam\Spider;
+namespace App\Http\Controllers\Spider\Steam;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
-use QL\QueryList;
-use Illuminate\Support\LazyCollection;
 use App\Jobs\Game\Steam\Spider\App as AppJob;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\LazyCollection;
+use QL\QueryList;
 
 class AppController extends Controller
 {

@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Article;
+namespace App\Http\Controllers\Spider\Article;
 
-use QL\QueryList;
-use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
-use App\Http\Model\Article\{
-    News,
-    Ref,
-    Tag
-};
+use App\Http\Model\Article\{News, Ref, Tag};
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
+use QL\QueryList;
 
-class FetchController extends Controller
+class NewsController extends Controller
 {
     protected $client;
 
@@ -26,7 +22,7 @@ class FetchController extends Controller
      *
      * @return array
      */
-    public function create()
+    public function index()
     {
         $towP = $this->towP();
         $yys = $this->yys();
@@ -155,7 +151,7 @@ class FetchController extends Controller
             $tag = '资讯';
             $ref_name = 'indienova';
             $ref_top_domain = '//indienova.com';
-            $image = str_replace("_t205", "", $item['image'] ?? null)  ?? null;
+            $image = str_replace("_t205", "", $item['image'] ?? null) ?? null;
 
             $tag_id = Tag::firstOrCreate(
                 ['name' => $tag],
@@ -207,7 +203,7 @@ class FetchController extends Controller
             $tag = '资讯';
             $ref_name = 'vgtime';
             $ref_top_domain = '//www.vgtime.com';
-            $image = str_replace("?x-oss-process=image/resize,m_pad,color_000000,w_640,h_400", "", $item['image'] ?? null)  ?? null;
+            $image = str_replace("?x-oss-process=image/resize,m_pad,color_000000,w_640,h_400", "", $item['image'] ?? null) ?? null;
 
             $tag_id = Tag::firstOrCreate(
                 ['name' => $tag],
