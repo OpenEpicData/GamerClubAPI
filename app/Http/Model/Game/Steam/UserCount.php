@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserCount extends Model
 {
-    protected string $table = 'steam_user_count';
+    protected $table = 'steam_user_count';
 
-    protected array $guarded = [];
+    protected $guarded = [];
 
-    protected array $hidden = ['id'];
+    protected $hidden = ['id'];
 }

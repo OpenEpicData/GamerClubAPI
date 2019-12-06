@@ -13,14 +13,14 @@ class FetchSteamWeeklyTopSellersController extends Command
      *
      * @var string
      */
-    protected string $signature = 'fetch:SteamWeeklyTopSellers';
+    protected $signature = 'fetch:SteamWeeklyTopSellers';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'FetchSteamWeeklyTopSellers';
+    protected $description = 'FetchSteamWeeklyTopSellers';
 
     /**
      * Create a new command instance.

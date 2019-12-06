@@ -13,14 +13,14 @@ class FetchSteamUserCount extends Command
      *
      * @var string
      */
-    protected string $signature = 'fetch:SteamUserCount';
+    protected $signature = 'fetch:SteamUserCount';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'FetchSteamUserCount';
+    protected $description = 'FetchSteamUserCount';
 
     /**
      * Create a new command instance.

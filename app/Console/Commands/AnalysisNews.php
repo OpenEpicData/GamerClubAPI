@@ -13,14 +13,14 @@ class AnalysisNews extends Command
      *
      * @var string
      */
-    protected string $signature = 'analysis:news';
+    protected $signature = 'analysis:news';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Analysis News';
+    protected $description = 'Analysis News';
 
     /**
      * Create a new command instance.

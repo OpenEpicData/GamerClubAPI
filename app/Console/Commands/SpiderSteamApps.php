@@ -14,14 +14,14 @@ class SpiderSteamApps extends Command
      *
      * @var string
      */
-    protected string $signature = 'spider:SteamApps';
+    protected $signature = 'spider:SteamApps';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Command description';
+    protected $description = 'Command description';
 
     /**
      * Create a new command instance.

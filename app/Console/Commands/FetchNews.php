@@ -13,14 +13,14 @@ class FetchNews extends Command
      *
      * @var string
      */
-    protected string $signature = 'fetch:news';
+    protected $signature = 'fetch:news';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected string $description = 'Fetch News';
+    protected $description = 'Fetch News';
 
     /**
      * Create a new command instance.

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ref extends Model
 {
-    protected array $guarded = [];
+    protected $guarded = [];
 
     public function news()
     {
