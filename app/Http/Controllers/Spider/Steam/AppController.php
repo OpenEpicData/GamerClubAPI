@@ -17,9 +17,9 @@ class AppController extends Controller
             $node->text()
         );
 
-        $page = collect($data)->filter(function ($t) {
-            return (int)$t > 1000;
-        })
+        $page = collect($data)->filter(fn($t) =>
+            (int)$t > 1000
+        )
             ->flatten()
             ->all();
 
