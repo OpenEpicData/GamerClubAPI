@@ -6,27 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Jobs\Game\Steam\Spider\App as AppJob;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\LazyCollection;
-use QL\QueryList;
+use Goutte\Client;
 
 class AppController extends Controller
 {
-    public function index()
+    public function index(Client $client)
     {
-        $url = 'https://store.steampowered.com/search/results';
-        $data = QueryList::get($url, [
-            'ignore_preferences' => '1',
-            'category1' => '998',
-            'l' => 'schinese',
-            'cc' => 'cn',
-            'page' => 1
-        ])
-            ->rules([
-                'page' => array('.search_pagination_right a', 'text'),
-            ])
-            ->queryData();
+        $crawler = $client->request('GET', 'https://store.steampowered.com/search/results');
+        $data = $crawler->filter('.search_pagination_right a')->each(function ($node) {
+            return $node->text();
+        });
 
         $page = collect($data)->filter(function ($t) {
-            return (int)$t['page'] > 1000;
+            return (int)$t > 1000;
         })
             ->flatten()
             ->all();
