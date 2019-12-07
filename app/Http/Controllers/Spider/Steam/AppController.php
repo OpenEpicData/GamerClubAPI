@@ -12,10 +12,12 @@ class AppController extends Controller
 {
     public function index(Client $client)
     {
-        $crawler = $client->request('GET', 'https://store.steampowered.com/search/results');
-        $data = $crawler->filter('.search_pagination_right a')->each(fn($node) =>
-            $node->text()
-        );
+        $url = 'https://store.steampowered.com/search/results?ignore_preferences=1&category1=998&l=schinese&cc=cn&page=1';
+        $data = $client->request('GET', $url)
+            ->filter('.search_pagination_right a')
+            ->each(function ($node) {
+                return $node->text();
+            });
 
         $page = collect($data)->filter(fn($t) =>
             (int)$t > 1000
