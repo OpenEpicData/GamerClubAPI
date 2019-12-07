@@ -13,9 +13,9 @@ class AppController extends Controller
     public function index(Client $client)
     {
         $crawler = $client->request('GET', 'https://store.steampowered.com/search/results');
-        $data = $crawler->filter('.search_pagination_right a')->each(function ($node) {
-            return $node->text();
-        });
+        $data = $crawler->filter('.search_pagination_right a')->each(fn($node) =>
+            $node->text()
+        );
 
         $page = collect($data)->filter(function ($t) {
             return (int)$t > 1000;
