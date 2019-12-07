@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Spider\Steam;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\Game\Steam\Spider\App as AppJob;
+use Goutte\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\LazyCollection;
-use Goutte\Client;
 
 class AppController extends Controller
 {
@@ -19,9 +19,7 @@ class AppController extends Controller
                 return $node->text();
             });
 
-        $page = collect($data)->filter(fn($t) =>
-            (int)$t > 1000
-        )
+        $page = collect($data)->filter(fn($t) => (int)$t > 1000)
             ->flatten()
             ->all();
 
