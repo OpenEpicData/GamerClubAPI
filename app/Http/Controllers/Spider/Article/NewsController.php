@@ -4,17 +4,26 @@ namespace App\Http\Controllers\Spider\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Model\Article\{News, Ref, Tag};
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
-use QL\QueryList;
+use Goutte\Client;
+use GuzzleHttp\Client as HttpClient;
 
 class NewsController extends Controller
 {
-    protected $client;
+    /**
+     * @var Client
+     */
+    private Client $client;
 
-    public function __construct(Client $client)
+    /**
+     * @var HttpClient
+     */
+    private HttpClient $httpClient;
+
+    public function __construct(Client $client, HttpClient $httpClient)
     {
         $this->client = $client;
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -31,29 +40,29 @@ class NewsController extends Controller
 
 
         return [
-            '2p' => $towP,
-            '游研社' => $yys,
-            'indienova' => $indienova,
-            'vgtime' => $vgtime
+            $towP,
+            $yys,
+            $indienova,
+            $vgtime
         ];
     }
 
     protected function towP()
     {
-        $data = QueryList::get('www.2p.com/articles', [
-            'pageSize' => '21',
-            'pageNo' => '1'
-        ])
-            ->rules([
-                'title' => array('.game-list li .tit', 'text'),
-                'description' => array('.game-list li .summary', 'text'),
-                'image' => array('.game-list li .pic img', 'data-src'),
-                'author' => array('.game-list li .user', 'text'),
-                'author_avatar' => array('.game-list li .user img', 'src'),
-                'tag' => array('.game-list li .pic .tag', 'text'),
-                'ref_link' => array('.game-list li a', 'href')
-            ])
-            ->queryData();
+        $data = $this->client
+            ->request('GET', 'https://www.2p.com/articles?pageSize=21&pageNo=1')
+            ->filter('.game-list li')
+            ->each(function ($node) {
+                return [
+                    'title' => $node->filter('.tit')->text(),
+                    'description' => $node->filter('.summary')->text(),
+                    'image' => $node->filter('.pic img')->attr('data-src'),
+                    'author' => $node->filter('.user')->text(),
+                    'author_avatar' => $node->filter('.user img')->attr('src'),
+                    'tag' => $node->filter('.pic .tag')->text(),
+                    'ref_link' => $node->filter('a')->attr('href')
+                ];
+            });
 
         collect($data)->each(function ($item) {
             $title = $item['title'];
@@ -90,14 +99,14 @@ class NewsController extends Controller
             Log::info('拉取文章: ' . $ref_name . ' - ' . $title);
         });
 
-        return '2p fetch success';
+        return '2p 拉取成功';
     }
 
     protected function yys()
     {
-        $res = $this->client->request('GET', 'www.yystv.cn/boards/get_board_list_by_page?page=0&value=news');
+        $res = $this->httpClient->request('GET', 'www.yystv.cn/boards/get_board_list_by_page?page=0&value=news');
 
-        $collection = collect(json_decode($res->getBody())->data)->each(function ($item, $key) {
+        collect(json_decode($res->getBody())->data)->each(function ($item) {
             $title = $item->title;
             $tag = '趣闻';
             $ref_name = '游研社';
@@ -132,21 +141,24 @@ class NewsController extends Controller
         });
 
 
-        return 'yys fetch success';
+        return '游研社 拉取成功';
     }
 
     protected function indienova()
     {
-        $data = QueryList::get('indienova.com/channel/news')
-            ->rules([
-                'title' => array('.indienova-channel-border .article-panel h4 a', 'text'),
-                'description' => array('.indienova-channel-border .article-panel p', 'text'),
-                'image' => array('.indienova-channel-border .article-panel .article-image a img', 'src'),
-                'ref_link' => array('.indienova-channel-border .article-panel h4 a', 'href')
-            ])
-            ->queryData();
+        $data = $this->client
+            ->request('GET', 'https://indienova.com/channel/news')
+            ->filter('.indienova-channel-border .article-panel')
+            ->each(function ($node) {
+                return [
+                    'title' => $node->filter('h4 a')->text(),
+                    'description' => $node->filter('p')->text(),
+                    'image' => $node->filter('.article-image a img')->attr('src'),
+                    'ref_link' => $node->filter('h4 a')->attr('href')
+                ];
+            });
 
-        $collection = collect($data)->each(function ($item, $key) {
+        collect($data)->each(function ($item) {
             $title = $item['title'];
             $tag = '资讯';
             $ref_name = 'indienova';
@@ -182,23 +194,25 @@ class NewsController extends Controller
             Log::info('拉取文章: ' . $ref_name . ' - ' . $title);
         });
 
-        return 'indienova fecth success';
+        return 'indienova 拉取成功';
     }
 
     protected function vgtime()
     {
-        $res = $this->client->request('GET', 'http://www.vgtime.com/');
-        $data = QueryList::html($res->getBody())
-            ->rules([
-                'title' => array('.game_news_box .vg_list .info_box h2', 'text'),
-                'description' => array('.game_news_box .vg_list .info_box p', 'text'),
-                'image' => array('.game_news_box .vg_list .img_box img', 'data-url'),
-                'author' => array('.game_news_box .vg_list .info_box .user_name', 'text'),
-                'ref_link' => array('.game_news_box .vg_list .info_box a', 'href')
-            ])
-            ->queryData();
+        $data = $this->client
+            ->request('GET', 'https://www.vgtime.com/')
+            ->filter('.game_news_box .vg_list li')
+            ->each(function ($node) {
+                return [
+                    'title' => $node->filter('.info_box h2')->text(),
+                    'description' => $node->filter('.info_box p')->text(),
+                    'image' => $node->filter('.img_box img')->attr('data-url'),
+                    'author' => $node->filter('.info_box .user_name')->text(),
+                    'ref_link' => $node->filter('.info_box a')->attr('href')
+                ];
+            });
 
-        $collection = collect($data)->each(function ($item, $key) {
+        collect($data)->each(function ($item) {
             $title = $item['title'];
             $tag = '资讯';
             $ref_name = 'vgtime';
@@ -234,6 +248,6 @@ class NewsController extends Controller
             Log::info('拉取文章: ' . $ref_name . ' - ' . $title);
         });
 
-        return 'vgtime fecth success';
+        return 'vgtime 拉取成功';
     }
 }
