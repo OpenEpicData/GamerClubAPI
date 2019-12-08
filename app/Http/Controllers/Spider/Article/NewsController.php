@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Spider\Article;
 
 use App\Http\Controllers\Controller;
 use App\Http\Model\Article\{News, Ref, Tag};
-use Illuminate\Support\Facades\Log;
 use Goutte\Client;
 use GuzzleHttp\Client as HttpClient;
+use Illuminate\Support\Facades\Log;
 
 class NewsController extends Controller
 {
