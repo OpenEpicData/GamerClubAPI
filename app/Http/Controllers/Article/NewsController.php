@@ -36,7 +36,7 @@ class NewsController extends Controller
             $tagName = $request->tagName;
             $refName = $request->refName;
 
-            $top_length = $request->top_length ?? 3;
+            $top_length = $request->topLength ?? 3;
 
             $news = News::query();
 

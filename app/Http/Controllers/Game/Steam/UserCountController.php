@@ -13,7 +13,7 @@ class UserCountController extends Controller
 {
     public function index(Request $request)
     {
-        $toDaySubHours = $request->today_sub_hours ?? 0;
+        $toDaySubHours = $request->toDaySubHours ?? 0;
         $data = UserCount::whereDate('created_at', '>=', Carbon::now()
             ->startOfMonth())
             ->get();
