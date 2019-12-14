@@ -1,4 +1,8 @@
-# GamerClub API
+# Warning
+
+QL\QueryList cannot work on PHP 7.4,remove WIP
+
+## GamerClub API(PHP 7.4)
 
 ## Introduction
 

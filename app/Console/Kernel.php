@@ -25,10 +25,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('telescope:prune')->daily();
-        $schedule->command('fetch:news')->everyFiveMinutes()->runInBackground();
         $schedule->command('analysis:news')->everyFiveMinutes()->runInBackground();
-        $schedule->command('fetch:SteamUserCount')->everyTenMinutes()->runInBackground();
-        $schedule->command('fetch:SteamWeeklyTopSellers')->everyTenMinutes()->runInBackground();
+        $schedule->command('spider:news')->everyFiveMinutes()->runInBackground();
+        $schedule->command('spider:SteamStatus')->everyTenMinutes()->runInBackground();
+        $schedule->command('spider:SteamWeeklyTopSellers')->everyTenMinutes()->runInBackground();
         $schedule->command('spider:SteamApps')->hourly()->runInBackground();
     }
 

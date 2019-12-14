@@ -19,7 +19,7 @@ class FlushRedis extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = '清空 Redis 数据';
 
     /**
      * Create a new command instance.

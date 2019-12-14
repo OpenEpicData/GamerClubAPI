@@ -3,7 +3,6 @@
 namespace App\Http\Model\Game\Steam;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class UserCount extends Model
 {

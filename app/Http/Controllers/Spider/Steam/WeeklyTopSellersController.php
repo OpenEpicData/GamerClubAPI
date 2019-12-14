@@ -1,25 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Game\Steam;
+namespace App\Http\Controllers\Spider\Steam;
 
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\WeeklyTopSellers;
-use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
-class FetchWeeklyTopSellersController extends Controller
+class WeeklyTopSellersController extends Controller
 {
-    protected $client;
 
-    public function __construct(Client $client)
+    public function index(Client $client)
     {
-        $this->client = $client;
-    }
-
-    public function create()
-    {
-        $res = $this->client->request('GET', 'https://store.steampowered.com/feeds/weeklytopsellers.xml?l=schinese&cc=cn');
+        $res = $client->request('GET', 'https://store.steampowered.com/feeds/weeklytopsellers.xml?l=schinese&cc=cn');
         $xml = simplexml_load_string($res->getBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
 
         $json = json_encode($xml);
@@ -33,6 +27,7 @@ class FetchWeeklyTopSellersController extends Controller
         $db_latest = WeeklyTopSellers::latest()->first();
 
         if (!empty($db_latest) && $db_latest->timestamp === $parse_date) {
+            Log::info('数据已存在：' . $date);
             return;
         }
 
@@ -49,6 +44,6 @@ class FetchWeeklyTopSellersController extends Controller
             ]);
         }
 
-        return '获取成功：' . $date;
+        Log::info('获取成功：' . $date);
     }
 }

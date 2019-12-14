@@ -1,30 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Game\Steam;
+namespace App\Http\Controllers\Spider\Steam;
 
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\UserCount;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
 
-class FetchUserCountController extends Controller
+class StatusController extends Controller
 {
-    protected $client;
-
-    public function __construct(Client $client)
+    public function index(Client $client)
     {
-        $this->client = $client;
-    }
-
-    public function create()
-    {
-        $res = $this->client->request('GET', 'https://store.steampowered.com/stats/userdata.json');
+        $res = $client->request('GET', 'https://store.steampowered.com/stats/userdata.json');
         $body = json_decode($res->getBody(), true);
         $fetch_data = Arr::last($body[0]['data'])[1];
 
         $latest = UserCount::latest()->first('user');
 
-        if ((int) $fetch_data !== (int) $latest['user']) {
+        if ((int)$fetch_data !== (int)$latest['user']) {
             UserCount::create([
                 'user' => $fetch_data
             ]);

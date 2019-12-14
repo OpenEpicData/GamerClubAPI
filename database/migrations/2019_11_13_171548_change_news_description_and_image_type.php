@@ -26,9 +26,5 @@ class ChangeNewsDescriptionAndImageType extends Migration
      */
     public function down()
     {
-        Schema::table('news', function (Blueprint $table) {
-            $table->string('description')->change();
-            $table->string('image')->change();
-        });
     }
 }

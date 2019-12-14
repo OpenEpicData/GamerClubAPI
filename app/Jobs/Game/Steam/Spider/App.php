@@ -11,13 +11,13 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
-use QL\QueryList;
+use Goutte\Client;
 
 class App implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $page;
+    protected string $page;
 
     /**
      * Create a new job instance.
@@ -61,27 +61,24 @@ class App implements ShouldQueue
 
     protected function spider()
     {
-        $url = 'https://store.steampowered.com/search/results';
-        $data = QueryList::get($url, [
-            'ignore_preferences' => '1',
-            'category1' => '998',
-            'l' => 'schinese',
-            'cc' => 'cn',
-            'page' => $this->page
-        ])
-            ->rules([
-                'name'  =>  array('#search_resultsRows .title', 'text'),
-                'appid' =>  array('#search_resultsRows a', 'data-ds-appid'),
-                'url'   =>  array('#search_resultsRows a', 'href')
-            ])
-            ->queryData();
+        $client = new Client();
+
+        $url = 'https://store.steampowered.com/search/results?ignore_preferences=1&category1=998&l=schinese&cc=cn&page='. $this->page;
+        $data = $client->request('GET', $url)
+            ->filter('#search_resultsRows')
+            ->each(function ($node) {
+                return [
+                    'name' => $node->filter('.title')->text(),
+                    'appid' => $node->filter('a')->attr('data-ds-appid'),
+                    'url' => $node->filter('a')->attr('href'),
+                ];
+            });
 
         collect($data)->each(function ($t) {
             $find_string = strpos(
                 $t['url']
                 , 'sub'
             );
-
 
             if ($find_string) {
                 Log::info($t['name'] . '-' . $t['appid']. ': 不插入集合包');

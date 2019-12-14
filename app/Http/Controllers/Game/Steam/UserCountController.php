@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Game\Steam;
 
+use Illuminate\{
+    Http\Request,
+    Support\Carbon
+};
 use App\Http\Controllers\Controller;
 use App\Http\Model\Game\Steam\UserCount;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;
 
 class UserCountController extends Controller
 {
     public function index(Request $request)
     {
-        $toDaySubHours = $request->today_sub_hours ?? 0;
+        $toDaySubHours = $request->toDaySubHours ?? 0;
         $data = UserCount::whereDate('created_at', '>=', Carbon::now()
             ->startOfMonth())
             ->get();
