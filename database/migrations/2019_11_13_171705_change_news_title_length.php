@@ -25,6 +25,5 @@ class ChangeNewsTitleLength extends Migration
      */
     public function down()
     {
-        $table->string('title', 100)->change();
     }
 }
