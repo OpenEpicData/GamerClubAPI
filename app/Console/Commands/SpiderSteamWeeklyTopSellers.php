@@ -40,7 +40,7 @@ class SpiderSteamWeeklyTopSellers extends Command
      */
     public function handle()
     {
-        $request = Request::create('/api/spider/steam/weeklyTopSellers', 'GET');
+        $request = Request::create('/api/spider/steam/weeklyTopSellers?apiKey='. config('app.api_key'), 'GET');
         $this->info(app()->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request));
     }
 }

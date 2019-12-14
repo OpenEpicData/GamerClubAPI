@@ -41,7 +41,7 @@ class SpiderSteamApps extends Command
      */
     public function handle()
     {
-        $request = Request::create('/api/spider/steam/apps', 'GET');
+        $request = Request::create('/api/spider/steam/apps?apiKey='. config('app.api_key'), 'GET');
         $this->info(app()->make(Kernel::class)->handle($request));
     }
 }

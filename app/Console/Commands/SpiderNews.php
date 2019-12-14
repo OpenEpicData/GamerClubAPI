@@ -40,7 +40,7 @@ class SpiderNews extends Command
      */
     public function handle()
     {
-        $request = Request::create('/api/spider/article/news', 'GET');
+        $request = Request::create('/api/spider/article/news?apiKey='. config('app.api_key'), 'GET');
         $this->info(app()->make(\Illuminate\Contracts\Http\Kernel::class)->handle($request));
     }
 }
