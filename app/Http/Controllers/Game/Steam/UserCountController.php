@@ -14,8 +14,9 @@ class UserCountController extends Controller
     public function index(Request $request)
     {
         $toDaySubHours = $request->toDaySubHours ?? 0;
+        $subDays = $request->subDays ?? 5;
         $data = UserCount::whereDate('created_at', '>=', Carbon::now()
-            ->startOfMonth())
+            ->subDays($subDays))
             ->get();
 
         $user = $data->pluck('user');
