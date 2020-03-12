@@ -36,6 +36,8 @@ class NewsController extends Controller
             $tagName = $request->tagName;
             $refName = $request->refName;
 
+            $orderTime = $request->orderTime ?? 'latest';
+
             $top_length = $request->topLength ?? 3;
 
             $news = News::query();
@@ -57,9 +59,10 @@ class NewsController extends Controller
                 );
             }
 
+            $orderTime === 'latest' ? $news->latest() : $news->oldest();
+
             $list = $news
                 ->with(['tag', 'ref'])
-                ->latest()
                 ->paginate($length);
 
             $top_hit = AnalysisNews::whereDate('created_at', '>=', Carbon::now()->startOfWeek())
