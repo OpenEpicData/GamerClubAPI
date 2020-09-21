@@ -43,19 +43,19 @@ class NewsController extends Controller
             $news = News::query();
 
             if ($tagName && $tagName !== 'undefined') {
-                $news->whereHasIn('tag', fn($query) => $query->where('name', $tagName));
+                $news->whereHasIn('tag', fn ($query) => $query->where('name', $tagName));
             }
 
             if ($refName && $refName !== 'undefined') {
-                $news->whereHasIn('ref', fn($query) => $query->where('name', $refName));
+                $news->whereHasIn('ref', fn ($query) => $query->where('name', $refName));
             }
 
             if ($q && $q !== 'undefined') {
                 $news->where(
-                    fn($query) =>
-                        $query->where('title', 'ILIKE', "%" . $q . "%")
-                            ->orWhere('description', 'ILIKE', "%" . $q . "%")
-                            ->orWhere('author', 'ILIKE', "%" . $q . "%")
+                    fn ($query) =>
+                    $query->where('title', 'ILIKE', "%" . $q . "%")
+                        ->orWhere('description', 'ILIKE', "%" . $q . "%")
+                        ->orWhere('author', 'ILIKE', "%" . $q . "%")
                 );
             }
 
@@ -73,10 +73,10 @@ class NewsController extends Controller
             $top_news = [];
             foreach ($top_hit as $key) {
                 $data = News::where(
-                    fn($query) =>
-                        $query->where('title', 'ILIKE', "%" . $key->title . "%")
-                            ->orWhere('description', 'ILIKE', "%" . $key->title . "%")
-                            ->orWhere('author', 'ILIKE', "%" . $key->title . "%")
+                    fn ($query) =>
+                    $query->where('title', 'ILIKE', "%" . $key->title . "%")
+                        ->orWhere('description', 'ILIKE', "%" . $key->title . "%")
+                        ->orWhere('author', 'ILIKE', "%" . $key->title . "%")
                 )
                     ->with(['tag', 'ref'])
                     ->latest()
